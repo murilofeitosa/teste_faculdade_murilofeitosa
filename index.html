@@ -85,7 +85,7 @@
 
         /* Banner */
         .banner {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23ff6b35" width="1200" height="600"/><circle fill="%23ffcc00" cx="600" cy="300" r="200"/><text x="600" y="320" text-anchor="middle" fill="%23fff" font-size="40" font-family="Arial">🍕 PIZZA DELICIOSA 🍕</text></svg>');
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://i.ibb.co/Qn1kG3q/pizza-banner.jpg');
             background-size: cover;
             background-position: center;
             height: 100vh;
@@ -94,9 +94,12 @@
             justify-content: center;
             text-align: center;
             color: white;
-            margin-top: 80px;
         }
 
+        .banner-content {
+            margin-top: 60px; /* Adjust for fixed header */
+        }
+        
         .banner-content h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
@@ -171,6 +174,8 @@
             overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s;
             border: 3px solid transparent;
+            display: flex;
+            flex-direction: column;
         }
 
         .pizza-card:hover {
@@ -192,6 +197,9 @@
 
         .pizza-info {
             padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .pizza-info h3 {
@@ -204,23 +212,31 @@
             color: #666;
             margin-bottom: 1rem;
             font-size: 0.9rem;
+            flex-grow: 1;
         }
 
         .pizza-prices {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .price {
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
-            color: white;
+            background: #f0f0f0;
+            color: #333;
             padding: 0.3rem 0.8rem;
             border-radius: 15px;
             font-weight: bold;
             font-size: 0.9rem;
         }
-
+        
+        .price .size {
+            font-weight: normal;
+            color: #555;
+        }
+        
         /* Sobre */
         .sobre-content {
             display: grid;
@@ -320,12 +336,12 @@
         }
 
         /* Pedido Online */
-        .pedido-online {
+        #pedido {
             background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
             color: white;
             text-align: center;
             padding: 4rem 2rem;
-            margin: 3rem 0;
+            margin: 3rem auto;
             border-radius: 20px;
         }
 
@@ -379,6 +395,20 @@
             color: #ff6b35;
             transform: translateY(-3px);
         }
+        
+        .footer-links {
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
 
         /* Animations */
         @keyframes fadeInUp {
@@ -395,7 +425,7 @@
         /* Mobile Responsive */
         @media (max-width: 768px) {
             nav ul {
-                display: none;
+                display: none; /* Simple hiding for mobile. A hamburger menu would be the next step. */
             }
 
             .banner-content h1 {
@@ -413,6 +443,10 @@
             .sobre-content,
             .contato-content {
                 grid-template-columns: 1fr;
+            }
+            
+            .sobre-image {
+                grid-row: 1; /* Puts image on top in mobile view for 'Sobre' */
             }
 
             section {
@@ -433,15 +467,15 @@
             text-align: center;
             font-size: 1.3rem;
             font-weight: bold;
-            margin: 2rem 0 1rem 0;
+            margin: 3rem 0 1rem 0;
             border-radius: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <nav>
             <div class="logo">
@@ -458,31 +492,28 @@
         </nav>
     </header>
 
-    <!-- Banner Principal -->
     <section id="inicio" class="banner">
         <div class="banner-content">
             <h1>A melhor pizza da cidade está aqui!</h1>
-            <p>Sabores únicos, ingredientes frescos e muito amor em cada fatia</p>
+            <p>Sabores únicos, ingredientes frescos e muito amor em cada fatia.</p>
             <a href="#pedido" class="btn-banner">Peça Agora</a>
         </div>
     </section>
 
-    <!-- Cardápio -->
     <section id="cardapio">
         <h2 class="section-title">Nosso Cardápio</h2>
         
-        <!-- Pizzas Tradicionais -->
         <div class="categoria-header">Pizzas Tradicionais</div>
         <div class="cardapio-grid">
             <div class="pizza-card">
                 <div class="pizza-image">🍕</div>
                 <div class="pizza-info">
                     <h3>Margherita</h3>
-                    <p>Molho de tomate, mussarela, tomate e manjericão fresco[7]</p>
+                    <p>Mussarela, rodelas de tomate e manjericão fresco.</p>
                     <div class="pizza-prices">
-                        <span class="price">P: R$ 30,00</span>
-                        <span class="price">M: R$ 34,00</span>
-                        <span class="price">G: R$ 42,00</span>
+                        <span class="price"><span class="size">P:</span> R$ 30,00</span>
+                        <span class="price"><span class="size">M:</span> R$ 34,00</span>
+                        <span class="price"><span class="size">G:</span> R$ 42,00</span>
                     </div>
                 </div>
             </div>
@@ -491,11 +522,11 @@
                 <div class="pizza-image">🍕</div>
                 <div class="pizza-info">
                     <h3>Calabresa</h3>
-                    <p>Molho de tomate, mussarela, calabresa e cebola[7]</p>
+                    <p>Calabresa com cebola e mussarela.</p>
                     <div class="pizza-prices">
-                        <span class="price">P: R$ 30,00</span>
-                        <span class="price">M: R$ 34,00</span>
-                        <span class="price">G: R$ 42,00</span>
+                        <span class="price"><span class="size">P:</span> R$ 30,00</span>
+                        <span class="price"><span class="size">M:</span> R$ 34,00</span>
+                        <span class="price"><span class="size">G:</span> R$ 42,00</span>
                     </div>
                 </div>
             </div>
@@ -504,11 +535,11 @@
                 <div class="pizza-image">🧀</div>
                 <div class="pizza-info">
                     <h3>Quatro Queijos</h3>
-                    <p>Mussarela, requeijão, parmesão, provolone e gorgonzola[6]</p>
+                    <p>Mussarela, requeijão, parmesão e provolone.</p>
                     <div class="pizza-prices">
-                        <span class="price">P: R$ 32,00</span>
-                        <span class="price">M: R$ 36,00</span>
-                        <span class="price">G: R$ 44,00</span>
+                        <span class="price"><span class="size">P:</span> R$ 32,00</span>
+                        <span class="price"><span class="size">M:</span> R$ 36,00</span>
+                        <span class="price"><span class="size">G:</span> R$ 44,00</span>
                     </div>
                 </div>
             </div>
@@ -517,24 +548,24 @@
                 <div class="pizza-image">🐔</div>
                 <div class="pizza-info">
                     <h3>Frango com Catupiry</h3>
-                    <p>Molho de tomate, mussarela, frango desfiado e catupiry[6]</p>
+                    <p>Frango desfiado e Catupiry.</p>
                     <div class="pizza-prices">
-                        <span class="price">P: R$ 30,00</span>
-                        <span class="price">M: R$ 34,00</span>
-                        <span class="price">G: R$ 42,00</span>
+                        <span class="price"><span class="size">P:</span> R$ 30,00</span>
+                        <span class="price"><span class="size">M:</span> R$ 34,00</span>
+                        <span class="price"><span class="size">G:</span> R$ 42,00</span>
                     </div>
                 </div>
             </div>
 
             <div class="pizza-card">
-                <div class="pizza-image">🍕</div>
+                <div class="pizza-image">🍳</div>
                 <div class="pizza-info">
                     <h3>Portuguesa</h3>
-                    <p>Presunto, ovo, azeitona, ervilha, cebola e mussarela[6]</p>
+                    <p>Presunto, ovo, ervilha, cebola, mussarela e bacon.</p>
                     <div class="pizza-prices">
-                        <span class="price">P: R$ 30,00</span>
-                        <span class="price">M: R$ 34,00</span>
-                        <span class="price">G: R$ 40,00</span>
+                        <span class="price"><span class="size">P:</span> R$ 30,00</span>
+                        <span class="price"><span class="size">M:</span> R$ 34,00</span>
+                        <span class="price"><span class="size">G:</span> R$ 40,00</span>
                     </div>
                 </div>
             </div>
@@ -542,29 +573,28 @@
             <div class="pizza-card">
                 <div class="pizza-image">🥩</div>
                 <div class="pizza-info">
-                    <h3>Carne Sol Especial</h3>
-                    <p>Carne de sol, cebola, mussarela e requeijão[6]</p>
+                    <h3>Carne de Sol</h3>
+                    <p>Carne de sol, cebola, mussarela e requeijão.</p>
                     <div class="pizza-prices">
-                        <span class="price">P: R$ 34,00</span>
-                        <span class="price">M: R$ 38,00</span>
-                        <span class="price">G: R$ 46,00</span>
+                        <span class="price"><span class="size">P:</span> R$ 34,00</span>
+                        <span class="price"><span class="size">M:</span> R$ 38,00</span>
+                        <span class="price"><span class="size">G:</span> R$ 46,00</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Pizzas Premium -->
         <div class="categoria-header">Sabores Premium</div>
         <div class="cardapio-grid">
             <div class="pizza-card">
                 <div class="pizza-image">👨‍🍳</div>
                 <div class="pizza-info">
-                    <h3>À Moda do Chef</h3>
-                    <p>Frango, bacon, milho, catupiry original ou cream cheese[4]</p>
+                    <h3>Frango à Moda do Chef</h3>
+                    <p>Frango, milho, bacon, catupiry original ou cream cheese, batata palha e mussarela.</p>
                     <div class="pizza-prices">
-                        <span class="price">P: R$ 38,00</span>
-                        <span class="price">M: R$ 42,00</span>
-                        <span class="price">G: R$ 50,00</span>
+                        <span class="price"><span class="size">P:</span> R$ 38,00</span>
+                        <span class="price"><span class="size">M:</span> R$ 42,00</span>
+                        <span class="price"><span class="size">G:</span> R$ 50,00</span>
                     </div>
                 </div>
             </div>
@@ -573,41 +603,40 @@
                 <div class="pizza-image">🦐</div>
                 <div class="pizza-info">
                     <h3>Camarão ao Alho</h3>
-                    <p>Camarão refogado, alho, cebola, mussarela, cream cheese ou catupiry[4]</p>
+                    <p>Camarão refogado no alho e óleo, mussarela, cream cheese ou catupiry original.</p>
                     <div class="pizza-prices">
-                        <span class="price">P: R$ 42,00</span>
-                        <span class="price">M: R$ 48,00</span>
-                        <span class="price">G: R$ 58,00</span>
+                        <span class="price"><span class="size">P:</span> R$ 42,00</span>
+                        <span class="price"><span class="size">M:</span> R$ 48,00</span>
+                        <span class="price"><span class="size">G:</span> R$ 58,00</span>
                     </div>
                 </div>
             </div>
 
             <div class="pizza-card">
-                <div class="pizza-image">🥓</div>
+                <div class="pizza-image">🌶️</div>
                 <div class="pizza-info">
-                    <h3>Bacon Especial</h3>
-                    <p>Bacon crocante, ovo, cebola, calabresa e mussarela[4]</p>
+                    <h3>Mexicana</h3>
+                    <p>Carne moída, pimentão, cheddar, cream cheese, cebola e mussarela.</p>
                     <div class="pizza-prices">
-                        <span class="price">P: R$ 38,00</span>
-                        <span class="price">M: R$ 42,00</span>
-                        <span class="price">G: R$ 50,00</span>
+                        <span class="price"><span class="size">P:</span> R$ 38,00</span>
+                        <span class="price"><span class="size">M:</span> R$ 42,00</span>
+                        <span class="price"><span class="size">G:</span> R$ 50,00</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Pizzas Doces -->
         <div class="categoria-header">Pizzas Doces</div>
         <div class="cardapio-grid">
             <div class="pizza-card">
                 <div class="pizza-image">🍌</div>
                 <div class="pizza-info">
                     <h3>Pizza de Banana</h3>
-                    <p>Banana fatiada, leite condensado, canela e mussarela[5]</p>
+                    <p>Banana fatiada, leite condensado, canela e mussarela.</p>
                     <div class="pizza-prices">
-                        <span class="price">P: R$ 34,00</span>
-                        <span class="price">M: R$ 38,00</span>
-                        <span class="price">G: R$ 46,00</span>
+                        <span class="price"><span class="size">P:</span> R$ 34,00</span>
+                        <span class="price"><span class="size">M:</span> R$ 38,00</span>
+                        <span class="price"><span class="size">G:</span> R$ 46,00</span>
                     </div>
                 </div>
             </div>
@@ -615,12 +644,12 @@
             <div class="pizza-card">
                 <div class="pizza-image">🍫</div>
                 <div class="pizza-info">
-                    <h3>Chocolate com M&M's</h3>
-                    <p>Chocolate ao leite e coloridos M&M's[5]</p>
+                    <h3>Pizza M&M's</h3>
+                    <p>Chocolate ao leite e M&M's coloridos.</p>
                     <div class="pizza-prices">
-                        <span class="price">P: R$ 32,00</span>
-                        <span class="price">M: R$ 36,00</span>
-                        <span class="price">G: R$ 42,00</span>
+                        <span class="price"><span class="size">P:</span> R$ 32,00</span>
+                        <span class="price"><span class="size">M:</span> R$ 36,00</span>
+                        <span class="price"><span class="size">G:</span> R$ 42,00</span>
                     </div>
                 </div>
             </div>
@@ -629,26 +658,25 @@
                 <div class="pizza-image">🍓</div>
                 <div class="pizza-info">
                     <h3>Sensação</h3>
-                    <p>Chocolate ao leite, granulado e pedaços de morango[3]</p>
+                    <p>Chocolate ao leite, pedaços de morango e granulado.</p>
                     <div class="pizza-prices">
-                        <span class="price">P: R$ 34,00</span>
-                        <span class="price">M: R$ 36,00</span>
-                        <span class="price">G: R$ 46,00</span>
+                        <span class="price"><span class="size">P:</span> R$ 34,00</span>
+                        <span class="price"><span class="size">M:</span> R$ 36,00</span>
+                        <span class="price"><span class="size">G:</span> R$ 46,00</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Bebidas -->
         <div class="categoria-header">Bebidas</div>
         <div class="cardapio-grid">
             <div class="pizza-card">
                 <div class="pizza-image">🥤</div>
                 <div class="pizza-info">
                     <h3>Refrigerantes</h3>
-                    <p>Coca-Cola, Fanta Uva, Fanta Laranja, Guaraná, Sprite, Pepsi[2]</p>
+                    <p>Coca-Cola, Fanta Uva, Fanta Laranja, Guaraná, Sprite, Pepsi e Cajuína.</p>
                     <div class="pizza-prices">
-                        <span class="price">Lata 350ml</span>
+                        <span class="price">Lata / 1L / 1,5L / 2L</span>
                     </div>
                 </div>
             </div>
@@ -657,30 +685,29 @@
                 <div class="pizza-image">🍺</div>
                 <div class="pizza-info">
                     <h3>Cervejas</h3>
-                    <p>Bohemia, Corona, Heineken, Skol, Spaten, Stella Artois[2]</p>
+                    <p>Bohemia, Corona, Heineken, Skol, Spaten e Stella Artois.</p>
                     <div class="pizza-prices">
-                        <span class="price">Long Neck Gelada</span>
+                        <span class="price">Long Neck</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Sobre -->
     <section id="sobre">
         <h2 class="section-title">Sobre a MARIZ Pizzaria</h2>
         <div class="sobre-content">
             <div class="sobre-text">
                 <h3>Nossa História</h3>
-                <p>A MARIZ Pizzaria nasceu com o sonho de levar às famílias da cidade as melhores pizzas artesanais, feitas com ingredientes selecionados e muito carinho. Localizada na Av. Cel. Vicente Alexandrino de Sousa, 163 - Tauazinho[1], nossa pizzaria se tornou referência em sabor e qualidade.</p>
+                <p>A MARIZ Pizzaria nasceu do sonho de levar às famílias da cidade as melhores pizzas artesanais, feitas com ingredientes selecionados e muito carinho. Localizada no coração do Tauazinho, nossa pizzaria se tornou um ponto de referência em sabor, qualidade e bom atendimento.</p>
                 
                 <h3>Nossa Missão</h3>
-                <p>Oferecer pizzas saborosas com ingredientes de qualidade, assadas com carinho e entregues com agilidade, proporcionando momentos especiais para nossos clientes.</p>
+                <p>Oferecer pizzas saborosas com ingredientes de qualidade, assadas com carinho e entregues com agilidade, proporcionando momentos especiais e deliciosos para nossos clientes e amigos.</p>
                 
                 <h3>Nossos Valores</h3>
-                <p><strong>Qualidade:</strong> Ingredientes frescos e selecionados</p>
-                <p><strong>Atendimento:</strong> Cordialidade e atenção em cada pedido</p>
-                <p><strong>Agilidade:</strong> Entrega rápida e eficiente</p>
+                <p><strong>Qualidade:</strong> Ingredientes sempre frescos e selecionados.</p>
+                <p><strong>Atendimento:</strong> Cordialidade e atenção em cada pedido.</p>
+                <p><strong>Agilidade:</strong> Sua pizza quentinha no menor tempo possível.</p>
             </div>
             <div class="sobre-image">
                 🏪
@@ -688,25 +715,21 @@
         </div>
     </section>
 
-    <!-- Contato -->
     <section id="contato">
         <h2 class="section-title">Entre em Contato</h2>
         <div class="contato-content">
             <div class="contato-info">
                 <h3><i class="fas fa-map-marker-alt"></i> Localização</h3>
-                <p>Av. Cel. Vicente Alexandrino de Sousa, 163 - Tauazinho[1]</p>
+                <p>Av. Cel. Vicente Alexandrino de Sousa, 163 - Tauazinho</p>
                 
-                <h3><i class="fas fa-phone"></i> Telefone</h3>
-                <p>(88) 99681-1452[1][2][3][4][5][6][7][8]</p>
-                
-                <h3><i class="fab fa-whatsapp"></i> WhatsApp</h3>
+                <h3><i class="fas fa-phone"></i> Telefone & WhatsApp</h3>
                 <p>(88) 99681-1452</p>
                 
-                <h3><i class="fas fa-clock"></i> Funcionamento</h3>
-                <p>Segunda a Domingo: 18:00 às 23:30</p>
+                <h3><i class="fas fa-clock"></i> Horário de Funcionamento</h3>
+                <p>Segunda a Domingo: 18:00h às 23:30h</p>
                 
-                <h3><i class="fab fa-instagram"></i> Redes Sociais</h3>
-                <p>@marizpizzaria[1][2][3][4][5][6][7][8]</p>
+                <h3><i class="fab fa-instagram"></i> Siga-nos no Instagram</h3>
+                <p>@marizpizzaria</p>
             </div>
             
             <form class="contato-form">
@@ -727,27 +750,29 @@
         </div>
     </section>
 
-    <!-- Pedido Online -->
     <section id="pedido" class="pedido-online">
-        <h2>Faça seu Pedido Online</h2>
+        <h2>Faça seu Pedido Facilmente</h2>
         <p>Peça agora pelo WhatsApp e receba sua pizza quentinha em casa!</p>
-        <a href="https://wa.me/5588996811452?text=Olá! Gostaria de fazer um pedido na MARIZ Pizzaria!" 
+        <a href="https://wa.me/5588996811452?text=Olá!%20Gostaria%20de%20fazer%20um%20pedido%20na%20MARIZ%20Pizzaria!" 
            class="whatsapp-btn" target="_blank">
             <i class="fab fa-whatsapp"></i>
             Pedir pelo WhatsApp
         </a>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="social-links">
-                <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
-                <a href="https://instagram.com/marizpizzaria" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://instagram.com/marizpizzaria" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <div class="footer-links">
+                <a href="#">Política de Privacidade</a> | 
+                <a href="#">Termos de Serviço</a>
             </div>
             <p>&copy; 2025 MARIZ Pizzaria. Todos os direitos reservados.</p>
-            <p>Desenvolvido com 🍕 e muito carinho</p>
+            <p>Desenvolvido com 🍕 e muito carinho.</p>
         </div>
     </footer>
 
@@ -766,37 +791,34 @@
             });
         });
 
-        // Animação de entrada dos cards
+        // Animação de entrada dos cards ao rolar a página
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
         };
 
-        const observer = new IntersectionObserver(function(entries) {
+        const observer = new IntersectionObserver(function(entries, observer) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.animation = 'fadeInUp 0.6s ease-out';
+                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
-        // Observar todos os cards de pizza
-        document.querySelectorAll('.pizza-card').forEach(card => {
-            observer.observe(card);
+        // Observar todos os cards e seções
+        document.querySelectorAll('.pizza-card, .sobre-content, .contato-content').forEach(el => {
+            el.style.opacity = '0'; // Começa invisível
+            observer.observe(el);
         });
 
-        // Form handling
+        // Simulação de envio do formulário de contato
         document.querySelector('.contato-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Obrigado pelo contato! Responderemos em breve.');
+            alert('Obrigado pelo seu contato! Responderemos em breve.');
             this.reset();
         });
 
-        // Mobile menu toggle (pode ser expandido)
-        const logo = document.querySelector('.logo');
-        logo.addEventListener('click', function() {
-            document.querySelector('#inicio').scrollIntoView({ behavior: 'smooth' });
-        });
     </script>
 </body>
 </html>
