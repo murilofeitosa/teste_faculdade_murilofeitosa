@@ -1,824 +1,327 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MARIZ - Bar e Pizzaria</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="src/styles/styles.css">
 
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        /* Header */
-        header {
-            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-            color: #ffcc00;
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-
-        .logo i {
-            margin-right: 10px;
-            font-size: 2rem;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: #ffcc00;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #ff6b35;
-        }
-
-        .btn-pedido {
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
-            padding: 0.7rem 1.5rem;
-            border-radius: 25px;
-            text-transform: uppercase;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
-            transition: transform 0.3s;
-        }
-
-        .btn-pedido:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-        }
-
-        /* Banner */
-        .banner {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://i.ibb.co/Qn1kG3q/pizza-banner.jpg');
-            background-size: cover;
-            background-position: center;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-        }
-
-        .banner-content {
-            margin-top: 60px; /* Adjust for fixed header */
-        }
-        
-        .banner-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .banner-content p {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-            animation: fadeInUp 1s ease-out 0.3s both;
-        }
-
-        .btn-banner {
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            animation: fadeInUp 1s ease-out 0.6s both;
-        }
-
-        .btn-banner:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
-        }
-
-        /* Sections */
-        section {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: #1a1a1a;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(45deg, #ff6b35, #ffcc00);
-            display: block;
-            margin: 1rem auto;
-        }
-
-        /* Cardápio */
-        .cardapio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .pizza-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 3px solid transparent;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .pizza-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            border-color: #ffcc00;
-        }
-
-        .pizza-image {
-            height: 200px;
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .pizza-info {
-            padding: 1.5rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .pizza-info h3 {
-            color: #1a1a1a;
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .pizza-info p {
-            color: #666;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            flex-grow: 1;
-        }
-
-        .pizza-prices {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .price {
-            background: #f0f0f0;
-            color: #333;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-        
-        .price .size {
-            font-weight: normal;
-            color: #555;
-        }
-        
-        /* Sobre */
-        .sobre-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .sobre-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #555;
-        }
-
-        .sobre-image {
-            height: 300px;
-            background: linear-gradient(45deg, #ff6b35, #ffcc00);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 5rem;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        /* Contato */
-        .contato-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-        }
-
-        .contato-info {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 15px;
-            border-left: 5px solid #ffcc00;
-        }
-
-        .contato-info h3 {
-            color: #1a1a1a;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .contato-info p {
-            margin-bottom: 0.5rem;
-            color: #555;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #333;
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #ffcc00;
-        }
-
-        .btn-enviar {
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
-            color: white;
-            padding: 0.8rem 2rem;
-            border: none;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-        }
-
-        .btn-enviar:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
-        }
-
-        /* Pedido Online */
-        #pedido {
-            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-            color: white;
-            text-align: center;
-            padding: 4rem 2rem;
-            margin: 3rem auto;
-            border-radius: 20px;
-        }
-
-        .whatsapp-btn {
-            background: #25D366;
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            margin-top: 1rem;
-        }
-
-        .whatsapp-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
-        }
-
-        /* Footer */
-        footer {
-            background: #1a1a1a;
-            color: white;
-            text-align: center;
-            padding: 3rem 2rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .social-links {
-            margin-bottom: 2rem;
-        }
-
-        .social-links a {
-            color: #ffcc00;
-            font-size: 1.5rem;
-            margin: 0 1rem;
-            transition: color 0.3s, transform 0.3s;
-        }
-
-        .social-links a:hover {
-            color: #ff6b35;
-            transform: translateY(-3px);
-        }
-        
-        .footer-links {
-            margin-bottom: 1rem;
-        }
-        
-        .footer-links a {
-            color: #ccc;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            nav ul {
-                display: none; /* Simple hiding for mobile. A hamburger menu would be the next step. */
-            }
-
-            .banner-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .banner-content p {
-                font-size: 1.2rem;
-            }
-
-            .cardapio-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .sobre-content,
-            .contato-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .sobre-image {
-                grid-row: 1; /* Puts image on top in mobile view for 'Sobre' */
-            }
-
-            section {
-                padding: 3rem 1rem;
-            }
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Categoria headers */
-        .categoria-header {
-            background: linear-gradient(45deg, #ff6b35, #ffcc00);
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin: 3rem 0 1rem 0;
-            border-radius: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-        }
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <title>Landing page</title>
 </head>
 <body>
     <header>
-        <nav>
-            <div class="logo">
-                <i class="fas fa-pizza-slice"></i>
-                MARIZ PIZZARIA
-            </div>
-            <ul>
-                <li><a href="#inicio">Início</a></li>
-                <li><a href="#cardapio">Cardápio</a></li>
-                <li><a href="#sobre">Sobre</a></li>
-                <li><a href="#contato">Contato</a></li>
-                <li><a href="#pedido" class="btn-pedido">Pedido Online</a></li>
+        <nav id="navbar">
+            <i class="fa-solid fa-burger" id="nav_logo"> food</i>
+
+            <ul id="nav_list">
+                <li class="nav-item active">
+                    <a href="#home">Início</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#menu">Cardápio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#testimonials">Avaliações</a>
+                </li>
             </ul>
+
+            <button class="btn-default">
+                Peça aqui
+            </button>
+
+            <button id="mobile_btn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </nav>
+
+        <div id="mobile_menu">
+            <ul id="mobile_nav_list">
+                <li class="nav-item">
+                    <a href="#home">Início</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#menu">Cardápio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#testimonials">Avaliações</a>
+                </li>
+            </ul>
+
+            <button class="btn-default">
+                Peça aqui
+            </button>
+        </div>
     </header>
 
-    <section id="inicio" class="banner">
-        <div class="banner-content">
-            <h1>A melhor pizza da cidade está aqui!</h1>
-            <p>Sabores únicos, ingredientes frescos e muito amor em cada fatia.</p>
-            <a href="#pedido" class="btn-banner">Peça Agora</a>
-        </div>
-    </section>
+    <main id="content">
+        <section id="home">
+            <div class="shape"></div>
+            <div id="cta">
+                <h1 class="title">
+                    O sabor que vai até
+                    <span>você</span>
+                </h1>
 
-    <section id="cardapio">
-        <h2 class="section-title">Nosso Cardápio</h2>
-        
-        <div class="categoria-header">Pizzas Tradicionais</div>
-        <div class="cardapio-grid">
-            <div class="pizza-card">
-                <div class="pizza-image">🍕</div>
-                <div class="pizza-info">
-                    <h3>Margherita</h3>
-                    <p>Mussarela, rodelas de tomate e manjericão fresco.</p>
-                    <div class="pizza-prices">
-                        <span class="price"><span class="size">P:</span> R$ 30,00</span>
-                        <span class="price"><span class="size">M:</span> R$ 34,00</span>
-                        <span class="price"><span class="size">G:</span> R$ 42,00</span>
+                <p class="description">
+                    Lorem ipsum dolor sit amet, consectetur 
+                    adipiscing elit ut aliquam, purus sit amet
+                </p>
+
+                <div id="cta_buttons">
+                    <a href="#" class="btn-default">
+                        Ver cardápio
+                    </a>
+
+                    <a href="tel:+55555555555" id="phone_button">
+                        <button class="btn-default">
+                            <i class="fa-solid fa-phone"></i>
+                        </button>
+                        (51) 92342-3243
+                    </a>
+                </div>
+
+                <div class="social-media-buttons">
+                    <a href="">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+
+                    <a href="">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+
+                    <a href="">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div id="banner">
+                <img src="src/images/hero.png" alt="">
+            </div>
+        </section>
+
+        <section id="menu">
+            <h2 class="section-title">Cardápio</h2>
+            <h3 class="section-subtitle">Nossos pratos especiais</h3>
+
+            <div id="dishes">
+                <div class="dish">
+                    <div class="dish-heart">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+
+                    <img src="src/images/dish.png" class="dish-image" alt="">
+
+                    <h3 class="dish-title">
+                        Lorem Ipsum
+                    </h3>
+
+                    <span class="dish-description">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </span>
+
+                    <div class="dish-rate">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <span>(500+)</span>
+                    </div>
+
+                    <div class="dish-price">
+                        <h4>R$20,00</h4>
+                        <button class="btn-default">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="dish">
+                    <div class="dish-heart">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+
+                    <img src="src/images/dish2.png" class="dish-image" alt="">
+
+                    <h3 class="dish-title">
+                        Lorem Ipsum
+                    </h3>
+
+                    <span class="dish-description">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </span>
+
+                    <div class="dish-rate">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <span>(500+)</span>
+                    </div>
+
+                    <div class="dish-price">
+                        <h4>R$20,00</h4>
+                        <button class="btn-default">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="dish">
+                    <div class="dish-heart">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+
+                    <img src="src/images/dish3.png" class="dish-image" alt="">
+
+                    <h3 class="dish-title">
+                        Lorem Ipsum
+                    </h3>
+
+                    <span class="dish-description">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </span>
+
+                    <div class="dish-rate">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <span>(500+)</span>
+                    </div>
+
+                    <div class="dish-price">
+                        <h4>R$20,00</h4>
+                        <button class="btn-default">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="dish">
+                    <div class="dish-heart">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+
+                    <img src="src/images/dish4.png" class="dish-image" alt="">
+
+                    <h3 class="dish-title">
+                        Lorem Ipsum
+                    </h3>
+
+                    <span class="dish-description">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </span>
+
+                    <div class="dish-rate">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <span>(500+)</span>
+                    </div>
+
+                    <div class="dish-price">
+                        <h4>R$20,00</h4>
+                        <button class="btn-default">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                        </button>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="pizza-card">
-                <div class="pizza-image">🍕</div>
-                <div class="pizza-info">
-                    <h3>Calabresa</h3>
-                    <p>Calabresa com cebola e mussarela.</p>
-                    <div class="pizza-prices">
-                        <span class="price"><span class="size">P:</span> R$ 30,00</span>
-                        <span class="price"><span class="size">M:</span> R$ 34,00</span>
-                        <span class="price"><span class="size">G:</span> R$ 42,00</span>
+        <section id="testimonials">
+            <img src="src/images/chef.png" id="testimonial_chef" alt="">
+
+            <div id="testimonials_content">
+                <h2 class="section-title">
+                    Depoimentos
+                </h2>
+                <h3 class="section-subtitle">
+                    O que os clientes falam sobre nós
+                </h3>
+
+                <div id="feedbacks">
+                    <div class="feedback">
+                        <img src="src/images/avatar.png" class="feedback-avatar" alt="">
+
+                        <div class="feedback-content">
+                            <p>
+                                Fulana de Tal
+                                <span>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </span>
+                            </p>
+                            <p>
+                                "Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                Repellat voluptatibus cumque dolor ea est quae alias necessitatibus"
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="feedback">
+                        <img src="src/images/avatar.png" class="feedback-avatar" alt="">
+
+                        <div class="feedback-content">
+                            <p>
+                                Fulana de Tal
+                                <span>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </span>
+                            </p>
+                            <p>
+                                "Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                Repellat voluptatibus cumque dolor ea est quae alias necessitatibus"
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="pizza-card">
-                <div class="pizza-image">🧀</div>
-                <div class="pizza-info">
-                    <h3>Quatro Queijos</h3>
-                    <p>Mussarela, requeijão, parmesão e provolone.</p>
-                    <div class="pizza-prices">
-                        <span class="price"><span class="size">P:</span> R$ 32,00</span>
-                        <span class="price"><span class="size">M:</span> R$ 36,00</span>
-                        <span class="price"><span class="size">G:</span> R$ 44,00</span>
-                    </div>
-                </div>
+                <button class="btn-default">
+                    Ver mais avaliações
+                </button>
             </div>
-
-            <div class="pizza-card">
-                <div class="pizza-image">🐔</div>
-                <div class="pizza-info">
-                    <h3>Frango com Catupiry</h3>
-                    <p>Frango desfiado e Catupiry.</p>
-                    <div class="pizza-prices">
-                        <span class="price"><span class="size">P:</span> R$ 30,00</span>
-                        <span class="price"><span class="size">M:</span> R$ 34,00</span>
-                        <span class="price"><span class="size">G:</span> R$ 42,00</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pizza-card">
-                <div class="pizza-image">🍳</div>
-                <div class="pizza-info">
-                    <h3>Portuguesa</h3>
-                    <p>Presunto, ovo, ervilha, cebola, mussarela e bacon.</p>
-                    <div class="pizza-prices">
-                        <span class="price"><span class="size">P:</span> R$ 30,00</span>
-                        <span class="price"><span class="size">M:</span> R$ 34,00</span>
-                        <span class="price"><span class="size">G:</span> R$ 40,00</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pizza-card">
-                <div class="pizza-image">🥩</div>
-                <div class="pizza-info">
-                    <h3>Carne de Sol</h3>
-                    <p>Carne de sol, cebola, mussarela e requeijão.</p>
-                    <div class="pizza-prices">
-                        <span class="price"><span class="size">P:</span> R$ 34,00</span>
-                        <span class="price"><span class="size">M:</span> R$ 38,00</span>
-                        <span class="price"><span class="size">G:</span> R$ 46,00</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="categoria-header">Sabores Premium</div>
-        <div class="cardapio-grid">
-            <div class="pizza-card">
-                <div class="pizza-image">👨‍🍳</div>
-                <div class="pizza-info">
-                    <h3>Frango à Moda do Chef</h3>
-                    <p>Frango, milho, bacon, catupiry original ou cream cheese, batata palha e mussarela.</p>
-                    <div class="pizza-prices">
-                        <span class="price"><span class="size">P:</span> R$ 38,00</span>
-                        <span class="price"><span class="size">M:</span> R$ 42,00</span>
-                        <span class="price"><span class="size">G:</span> R$ 50,00</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pizza-card">
-                <div class="pizza-image">🦐</div>
-                <div class="pizza-info">
-                    <h3>Camarão ao Alho</h3>
-                    <p>Camarão refogado no alho e óleo, mussarela, cream cheese ou catupiry original.</p>
-                    <div class="pizza-prices">
-                        <span class="price"><span class="size">P:</span> R$ 42,00</span>
-                        <span class="price"><span class="size">M:</span> R$ 48,00</span>
-                        <span class="price"><span class="size">G:</span> R$ 58,00</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pizza-card">
-                <div class="pizza-image">🌶️</div>
-                <div class="pizza-info">
-                    <h3>Mexicana</h3>
-                    <p>Carne moída, pimentão, cheddar, cream cheese, cebola e mussarela.</p>
-                    <div class="pizza-prices">
-                        <span class="price"><span class="size">P:</span> R$ 38,00</span>
-                        <span class="price"><span class="size">M:</span> R$ 42,00</span>
-                        <span class="price"><span class="size">G:</span> R$ 50,00</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="categoria-header">Pizzas Doces</div>
-        <div class="cardapio-grid">
-            <div class="pizza-card">
-                <div class="pizza-image">🍌</div>
-                <div class="pizza-info">
-                    <h3>Pizza de Banana</h3>
-                    <p>Banana fatiada, leite condensado, canela e mussarela.</p>
-                    <div class="pizza-prices">
-                        <span class="price"><span class="size">P:</span> R$ 34,00</span>
-                        <span class="price"><span class="size">M:</span> R$ 38,00</span>
-                        <span class="price"><span class="size">G:</span> R$ 46,00</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pizza-card">
-                <div class="pizza-image">🍫</div>
-                <div class="pizza-info">
-                    <h3>Pizza M&M's</h3>
-                    <p>Chocolate ao leite e M&M's coloridos.</p>
-                    <div class="pizza-prices">
-                        <span class="price"><span class="size">P:</span> R$ 32,00</span>
-                        <span class="price"><span class="size">M:</span> R$ 36,00</span>
-                        <span class="price"><span class="size">G:</span> R$ 42,00</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pizza-card">
-                <div class="pizza-image">🍓</div>
-                <div class="pizza-info">
-                    <h3>Sensação</h3>
-                    <p>Chocolate ao leite, pedaços de morango e granulado.</p>
-                    <div class="pizza-prices">
-                        <span class="price"><span class="size">P:</span> R$ 34,00</span>
-                        <span class="price"><span class="size">M:</span> R$ 36,00</span>
-                        <span class="price"><span class="size">G:</span> R$ 46,00</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="categoria-header">Bebidas</div>
-        <div class="cardapio-grid">
-            <div class="pizza-card">
-                <div class="pizza-image">🥤</div>
-                <div class="pizza-info">
-                    <h3>Refrigerantes</h3>
-                    <p>Coca-Cola, Fanta Uva, Fanta Laranja, Guaraná, Sprite, Pepsi e Cajuína.</p>
-                    <div class="pizza-prices">
-                        <span class="price">Lata / 1L / 1,5L / 2L</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pizza-card">
-                <div class="pizza-image">🍺</div>
-                <div class="pizza-info">
-                    <h3>Cervejas</h3>
-                    <p>Bohemia, Corona, Heineken, Skol, Spaten e Stella Artois.</p>
-                    <div class="pizza-prices">
-                        <span class="price">Long Neck</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="sobre">
-        <h2 class="section-title">Sobre a MARIZ Pizzaria</h2>
-        <div class="sobre-content">
-            <div class="sobre-text">
-                <h3>Nossa História</h3>
-                <p>A MARIZ Pizzaria nasceu do sonho de levar às famílias da cidade as melhores pizzas artesanais, feitas com ingredientes selecionados e muito carinho. Localizada no coração do Tauazinho, nossa pizzaria se tornou um ponto de referência em sabor, qualidade e bom atendimento.</p>
-                
-                <h3>Nossa Missão</h3>
-                <p>Oferecer pizzas saborosas com ingredientes de qualidade, assadas com carinho e entregues com agilidade, proporcionando momentos especiais e deliciosos para nossos clientes e amigos.</p>
-                
-                <h3>Nossos Valores</h3>
-                <p><strong>Qualidade:</strong> Ingredientes sempre frescos e selecionados.</p>
-                <p><strong>Atendimento:</strong> Cordialidade e atenção em cada pedido.</p>
-                <p><strong>Agilidade:</strong> Sua pizza quentinha no menor tempo possível.</p>
-            </div>
-            <div class="sobre-image">
-                🏪
-            </div>
-        </div>
-    </section>
-
-    <section id="contato">
-        <h2 class="section-title">Entre em Contato</h2>
-        <div class="contato-content">
-            <div class="contato-info">
-                <h3><i class="fas fa-map-marker-alt"></i> Localização</h3>
-                <p>Av. Cel. Vicente Alexandrino de Sousa, 163 - Tauazinho</p>
-                
-                <h3><i class="fas fa-phone"></i> Telefone & WhatsApp</h3>
-                <p>(88) 99681-1452</p>
-                
-                <h3><i class="fas fa-clock"></i> Horário de Funcionamento</h3>
-                <p>Segunda a Domingo: 18:00h às 23:30h</p>
-                
-                <h3><i class="fab fa-instagram"></i> Siga-nos no Instagram</h3>
-                <p>@marizpizzaria</p>
-            </div>
-            
-            <form class="contato-form">
-                <div class="form-group">
-                    <label for="nome">Nome:</label>
-                    <input type="text" id="nome" name="nome" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">E-mail:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="mensagem">Mensagem:</label>
-                    <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="btn-enviar">Enviar Mensagem</button>
-            </form>
-        </div>
-    </section>
-
-    <section id="pedido" class="pedido-online">
-        <h2>Faça seu Pedido Facilmente</h2>
-        <p>Peça agora pelo WhatsApp e receba sua pizza quentinha em casa!</p>
-        <a href="https://wa.me/5588996811452?text=Olá!%20Gostaria%20de%20fazer%20um%20pedido%20na%20MARIZ%20Pizzaria!" 
-           class="whatsapp-btn" target="_blank">
-            <i class="fab fa-whatsapp"></i>
-            Pedir pelo WhatsApp
-        </a>
-    </section>
+        </section>
+    </main>
 
     <footer>
-        <div class="footer-content">
-            <div class="social-links">
-                <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                <a href="https://instagram.com/marizpizzaria" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <img src="src/images/wave.svg" alt="">
+
+        <div id="footer_items">
+            <span id="copyright">
+                &copy 2024 Larissa Kich
+            </span>
+
+            <div class="social-media-buttons">
+                <a href="">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+
+                <a href="">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+
+                <a href="">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
             </div>
-            <div class="footer-links">
-                <a href="#">Política de Privacidade</a> | 
-                <a href="#">Termos de Serviço</a>
-            </div>
-            <p>&copy; 2025 MARIZ Pizzaria. Todos os direitos reservados.</p>
-            <p>Desenvolvido com 🍕 e muito carinho.</p>
         </div>
     </footer>
-
-    <script>
-        // Smooth scrolling para links internos
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Animação de entrada dos cards ao rolar a página
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        // Observar todos os cards e seções
-        document.querySelectorAll('.pizza-card, .sobre-content, .contato-content').forEach(el => {
-            el.style.opacity = '0'; // Começa invisível
-            observer.observe(el);
-        });
-
-        // Simulação de envio do formulário de contato
-        document.querySelector('.contato-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Obrigado pelo seu contato! Responderemos em breve.');
-            this.reset();
-        });
-
-    </script>
+    <script src="src/javascript/script.js"></script>
 </body>
 </html>
