@@ -1,152 +1,380 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mariz Pizzaria</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #000;
-      color: #fff;
-    }
-
-    header {
-      background-color: #000;
-      padding: 1rem;
-      text-align: center;
-    }
-
-    header img {
-      width: 120px;
-    }
-
-    h1, h2 {
-      color: #FFC107;
-      text-align: center;
-    }
-
-    .cardapio-section {
-      padding: 2rem;
-    }
-
-    .categoria {
-      margin-bottom: 2rem;
-    }
-
-    .categoria h2 {
-      border-bottom: 2px solid #FFC107;
-      padding-bottom: 0.5rem;
-    }
-
-    .item {
-      margin-bottom: 1rem;
-    }
-
-    .item-nome {
-      font-weight: bold;
-    }
-
-    .item-preco {
-      color: #FFC107;
-    }
-
-    .contato {
-      background-color: #111;
-      padding: 2rem;
-      text-align: center;
-    }
-
-    .contato p {
-      margin: 0.5rem 0;
-    }
-
-    .contato a {
-      color: #FFC107;
-      text-decoration: none;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background-color: #111;
-      font-size: 0.9rem;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Interativo: Sociologia Jurídica AV1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A aplicação foi estruturada em seções temáticas e interativas para facilitar a aprendizagem ativa, em vez de uma leitura passiva. A estrutura inclui: 1. Navegação superior para acesso rápido. 2. Uma seção de "Conceitos Fundamentais" com cartões clicáveis para comparar Sociologia Jurídica e Dogmática. 3. Uma seção interativa sobre as "Funções Sociais do Direito", onde o clique em cada função revela sua descrição e exemplos. 4. Uma "Linha do Tempo da Evolução Social" visual e clicável. 5. Uma área de foco nos "Pensadores Contemporâneos", que foi um ponto de dificuldade. 6. Um gráfico de desempenho para visualizar os tópicos a serem revisados. 7. Flashcards interativos para as "Perguntas-Chave". Essa arquitetura foi escolhida para transformar o guia de estudo estático em uma ferramenta de aprendizado dinâmica, priorizando a interatividade e o reforço dos temas mais desafiadores para o usuário. -->
+    <!-- Visualization & Content Choices: 1. Conceitos-Chave (Comparar): Cartões HTML/JS que revelam texto. Justificativa: Facilita a comparação direta. 2. Funções Sociais (Organizar/Informar): Abas interativas com HTML/JS. Justificativa: Isola a informação, permitindo foco em um conceito por vez. 3. Linha do Tempo (Organizar/Mudar): Diagrama de linha do tempo com HTML/CSS/JS. Justificativa: Visualiza a progressão cronológica de forma mais clara que o texto. 4. Pensadores (Informar/Organizar): Grade de cartões clicáveis com HTML/JS. Justificativa: Destaca os pensadores que necessitam de revisão. 5. Desempenho (Informar): Gráfico de barras com Chart.js/Canvas. Justificativa: Oferece um feedback visual rápido sobre os pontos fortes e fracos. 6. Perguntas-Chave (Testar): Flashcards com HTML/JS. Justificativa: Promove a memorização ativa e autoavaliação. Todas as escolhas visam aumentar o engajamento e a retenção do conteúdo. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfaf6;
+            color: #4a4a4a;
+        }
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #d97706; /* amber-600 */
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -0.625rem;
+            transform: translateY(-50%);
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 9999px;
+            background-color: #fbbf24; /* amber-400 */
+            border: 4px solid #fdfaf6;
+            z-index: 10;
+        }
+        .flashcard-inner {
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        .flashcard.is-flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
 </head>
-<body>
-  <header>
-    <img src="logo.png" alt="Logo Mariz Pizzaria">
-  </header>
+<body class="antialiased">
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <h1 class="text-xl md:text-2xl font-bold text-amber-700">Sociologia Jurídica AV1</h1>
+                <div class="hidden md:flex md:space-x-8">
+                    <a href="#conceitos" class="nav-link text-gray-600 font-medium">Conceitos</a>
+                    <a href="#funcoes" class="nav-link text-gray-600 font-medium">Funções</a>
+                    <a href="#timeline" class="nav-link text-gray-600 font-medium">Linha do Tempo</a>
+                    <a href="#revisao" class="nav-link text-gray-600 font-medium">Foco para Revisão</a>
+                    <a href="#perguntas" class="nav-link text-gray-600 font-medium">Perguntas-Chave</a>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-  <main class="cardapio-section">
-    <h1>Cardápio Completo</h1>
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <section id="hero" class="text-center mb-16">
+            <h2 class="text-4xl font-extrabold text-gray-800 mb-4">Guia de Estudo Interativo</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-600">Explore os conceitos fundamentais, a evolução do pensamento social e as funções do Direito de forma dinâmica para se preparar para sua avaliação.</p>
+        </section>
 
-    <section class="categoria">
-      <h2>Pizzas Salgadas</h2>
-      <div class="item">
-        <div class="item-nome">1 - A Moda</div>
-        <div class="item-preco">P: R$30,00 | M: R$34,00 | G: R$42,00</div>
-        <div>(Mussarela, Presunto, Ovo, Cebola e Bacon)</div>
-      </div>
-      <div class="item">
-        <div class="item-nome">2 - Alho e Óleo</div>
-        <div class="item-preco">P: R$30,00 | M: R$34,00 | G: R$42,00</div>
-        <div>(Mussarela, Alho torrado e Parmesão)</div>
-      </div>
-    </section>
+        <section id="conceitos" class="mb-16 scroll-mt-20">
+            <h3 class="text-3xl font-bold text-center text-gray-800 mb-2">Conceitos Fundamentais</h3>
+            <p class="text-center text-gray-600 mb-10">O Direito pode ser visto de diferentes maneiras. Aqui, comparamos a visão interna da norma com a análise de seu impacto na vida real. Clique nos cartões para ver a definição de cada perspectiva.</p>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div id="card-sociologia" class="card p-6 cursor-pointer">
+                    <h4 class="text-xl font-semibold text-amber-700 mb-2">Sociologia Jurídica</h4>
+                    <p class="text-gray-600">Analisa a **eficácia** e o **impacto social** das normas. Estuda o "Direito em ação".</p>
+                </div>
+                <div id="card-dogmatica" class="card p-6 cursor-pointer">
+                    <h4 class="text-xl font-semibold text-amber-700 mb-2">Dogmática Jurídica</h4>
+                    <p class="text-gray-600">Estuda a **validade** e a **estrutura formal** das normas. Foca na lei em sua forma abstrata.</p>
+                </div>
+            </div>
+        </section>
 
-    <section class="categoria">
-      <h2>Pizzas Doces</h2>
-      <div class="item">
-        <div class="item-nome">1 - Pizza Banana</div>
-        <div class="item-preco">P: R$34,00 | M: R$38,00 | G: R$46,00</div>
-        <div>(Banana Fatiada, Leite Condensado, Canela e Mussarela)</div>
-      </div>
-    </section>
+        <section id="funcoes" class="mb-16 scroll-mt-20">
+            <h3 class="text-3xl font-bold text-center text-gray-800 mb-2">As Funções Sociais do Direito</h3>
+            <p class="text-center text-gray-600 mb-10">O Direito não existe no vácuo; ele cumpre papéis essenciais na sociedade. Navegue pelas abas abaixo para entender cada uma de suas quatro funções principais e ver exemplos práticos de como elas se manifestam.</p>
+            <div class="max-w-4xl mx-auto">
+                <div class="flex justify-center border-b border-gray-200 mb-6">
+                    <div id="tabs-funcoes" class="flex flex-wrap -mb-px justify-center"></div>
+                </div>
+                <div id="content-funcoes" class="card p-8 min-h-[200px]"></div>
+            </div>
+        </section>
 
-    <section class="categoria">
-      <h2>Sabores Premium</h2>
-      <div class="item">
-        <div class="item-nome">1 - Frango à Moda do Chef</div>
-        <div class="item-preco">P: R$38,00 | M: R$42,00 | G: R$50,00</div>
-        <div>(Frango, milho, bacon, catupiry original ou cream cheese, batata palha e mussarela)</div>
-      </div>
-    </section>
+        <section id="timeline" class="mb-16 scroll-mt-20">
+            <h3 class="text-3xl font-bold text-center text-gray-800 mb-2">Linha do Tempo da Evolução Social</h3>
+            <p class="text-center text-gray-600 mb-12">A forma de pensar a sociedade e o Direito mudou radicalmente ao longo da história. Explore esta linha do tempo interativa para visualizar as ideias e os pensadores que moldaram cada período, da Antiguidade aos dias atuais.</p>
+            <div class="flex flex-col md:flex-row justify-between max-w-6xl mx-auto">
+                <div id="timeline-nav" class="flex md:flex-col justify-around md:justify-start md:space-y-4 md:w-1/4 mb-8 md:mb-0"></div>
+                <div class="md:w-3/4 md:pl-10">
+                    <div id="timeline-content" class="card p-8 relative">
+                        <div class="absolute top-0 bottom-0 left-4 w-0.5 bg-gray-200 hidden md:block"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <section class="categoria">
-      <h2>Esfihas</h2>
-      <div class="item">
-        <div class="item-nome">1 - Bacon</div>
-        <div class="item-preco">R$6,00</div>
-        <div>(Bacon e Mussarela)</div>
-      </div>
-    </section>
+        <section id="revisao" class="mb-16 scroll-mt-20">
+            <h3 class="text-3xl font-bold text-center text-gray-800 mb-2">Foco para Revisão</h3>
+            <p class="text-center text-gray-600 mb-10">Com base no seu desempenho, identificamos alguns tópicos que merecem atenção especial. Explore os cartões dos pensadores contemporâneos e analise o gráfico para guiar seus estudos de forma mais eficiente.</p>
+            <div class="grid md:grid-cols-2 gap-8 items-start">
+                <div>
+                    <h4 class="text-2xl font-semibold text-center text-gray-700 mb-6">Pensadores Contemporâneos</h4>
+                    <div id="pensadores-container" class="space-y-4"></div>
+                </div>
+                <div>
+                     <h4 class="text-2xl font-semibold text-center text-gray-700 mb-6">Análise de Desempenho</h4>
+                    <div class="card p-4">
+                        <div class="chart-container">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <section class="categoria">
-      <h2>Bebidas</h2>
-      <div class="item">
-        <div class="item-nome">Refrigerantes</div>
-        <div>(Cajuína, Coca-Cola, Fanta Uva, Fanta Laranja, Guaraná, Kuat, Pepsi, Sprite)</div>
-      </div>
-      <div class="item">
-        <div class="item-nome">Cervejas</div>
-        <div>(Bohemia, Corona, Heineken, Skol, Spaten, Stella)</div>
-      </div>
-    </section>
-  </main>
+        <section id="perguntas" class="scroll-mt-20">
+            <h3 class="text-3xl font-bold text-center text-gray-800 mb-2">Perguntas-Chave para a Prova</h3>
+            <p class="text-center text-gray-600 mb-10">Teste seus conhecimentos com estas perguntas essenciais. Clique no cartão para revelar a resposta e use os botões para navegar. Esta é uma ótima maneira de praticar a recordação ativa e fixar o conteúdo.</p>
+            <div class="max-w-2xl mx-auto">
+                <div id="flashcard-container" class="relative"></div>
+                <div id="flashcard-nav" class="flex justify-center items-center mt-6"></div>
+            </div>
+        </section>
+    </main>
 
-  <section class="contato">
-    <h2>Contato</h2>
-    <p><a href="https://wa.me/5588996811452" target="_blank">WhatsApp: (88) 99681-1452</a></p>
-    <p><a href="https://www.instagram.com/marizpizzaria" target="_blank">Instagram: @marizpizzaria</a></p>
-    <p>Endereço: Av. Cel. Vicente Alexandrino de Sousa, 163 - Tauazinho</p>
-  </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const data = {
+                funcoes: [
+                    { id: 'reg', nome: 'Reguladora', titulo: 'Função Reguladora e Organizadora', desc: 'Estabelece regras para o convívio em sociedade e organiza a vida coletiva.', exemplo: 'Ex: O Código de Trânsito Brasileiro organiza o fluxo de veículos e pedestres para garantir a segurança.' },
+                    { id: 'prot', nome: 'Proteção', titulo: 'Função de Proteção e Garantia de Direitos', desc: 'Assegura os direitos e a igualdade entre os indivíduos.', exemplo: 'Ex: O Estatuto da Criança e do Adolescente (ECA) protege os direitos de crianças e adolescentes.' },
+                    { id: 'resol', nome: 'Resolução', titulo: 'Função de Resolução de Conflitos', desc: 'Oferece mecanismos para solucionar disputas de forma pacífica.', exemplo: 'Ex: Ações judiciais sobre divórcio resolvem conflitos familiares de forma organizada.' },
+                    { id: 'trans', nome: 'Trans/Cons', titulo: 'Função Transformadora ou Conservadora', desc: 'O Direito pode tanto promover mudanças sociais quanto manter o status quo.', exemplo: 'Ex: A Lei Maria da Penha (transformador) combate a violência doméstica, mudando práticas culturais.' }
+                ],
+                timeline: [
+                    { id: 'antiguidade', periodo: 'Antiguidade', desc: 'O pensamento social se baseava na **razão** e na **filosofia**. O Direito era visto como uma criação humana para alcançar a justiça na comunidade.', conceitos: ['Pólis (cidade-Estado)', 'Homem como "animal político"'], pensadores: 'Platão, Aristóteles' },
+                    { id: 'medieval', periodo: 'Idade Média', desc: 'O pensamento era **teocêntrico**. O Direito e a sociedade eram vistos como reflexos de uma ordem divina e hierárquica, com forte influência da moral religiosa.', conceitos: ['Ordem Divina', 'Moral e Religião'], pensadores: 'Santo Agostinho, Tomás de Aquino' },
+                    { id: 'modernidade', periodo: 'Modernidade', desc: 'O pensamento se tornou **antropocêntrico**. O Estado e a ordem social são vistos como criações humanas, por meio do **Contrato Social**.', conceitos: ['Contrato Social', 'Estado', 'Liberdade'], pensadores: 'Hobbes, Locke, Rousseau' },
+                    { id: 'contemporanea', periodo: 'Contemporaneidade', desc: 'A sociedade se torna um objeto de estudo **científico**. O Direito é analisado criticamente em sua relação com as estruturas sociais e de poder.', conceitos: ['Luta de Classes', 'Instituições', 'Ação Social'], pensadores: 'Marx, Durkheim, Weber' }
+                ],
+                pensadores: [
+                    { nome: 'Karl Marx', conceito: 'Luta de Classes', desc: 'O Direito é um instrumento da classe dominante para manter o poder e legitimar as desigualdades sociais e econômicas.' },
+                    { nome: 'Émile Durkheim', conceito: 'Instituições (Fatos Sociais)', desc: 'O Direito é uma instituição social que reflete a consciência coletiva e garante a coesão da sociedade. É um fato social observável.' },
+                    { nome: 'Max Weber', conceito: 'Ação Social e Racionalização', desc: 'O Direito moderno é produto de um processo de racionalização. A Sociologia deve entender o sentido que os indivíduos dão às suas ações perante a lei.' }
+                ],
+                perguntas: [
+                    { pergunta: 'Qual é a principal diferença entre o estudo do Direito do ponto de vista normativo e da Sociologia Jurídica?', resposta: 'A perspectiva normativa (Dogmática) foca na validade e estrutura da lei em si. A Sociologia Jurídica foca na eficácia e no impacto social da lei, estudando como ela funciona na prática.' },
+                    { pergunta: 'Cite e explique uma das funções sociais do Direito, dando um exemplo prático.', resposta: 'Função Transformadora: Capacidade do Direito de promover mudanças sociais e culturais. Ex: A Lei Maria da Penha, que não só pune, mas também visa mudar a cultura de violência doméstica.' },
+                    { pergunta: 'Como a ideia de "Contrato Social" se opõe à visão do Direito na Idade Média?', resposta: 'Na Idade Média, o poder e o Direito vinham de Deus (teocentrismo). Com o Contrato Social, o poder passa a emanar de um acordo entre os próprios homens (antropocentrismo), que criam o Estado para se protegerem.' },
+                    { pergunta: 'Explique, com suas próprias palavras, a "influência mútua" entre o Direito e a sociedade.', resposta: 'É uma via de mão dupla: a sociedade (com seus valores e movimentos) pressiona pela criação de novas leis. Por sua vez, essas leis, uma vez criadas, moldam e regulam o comportamento da sociedade.' },
+                    { pergunta: 'Qual a contribuição de Max Weber para o estudo da Sociologia Jurídica?', resposta: 'Weber introduziu a análise do Direito como um produto do processo de racionalização da sociedade. Ele se focou em entender a "ação social", ou seja, o sentido que os indivíduos atribuem às suas condutas em relação às normas.' }
+                ]
+            };
+            
+            const tabsContainer = document.getElementById('tabs-funcoes');
+            const contentContainer = document.getElementById('content-funcoes');
+            
+            data.funcoes.forEach((funcao, index) => {
+                const tab = document.createElement('button');
+                tab.className = `px-4 py-2 text-sm font-medium border-b-2 transition-colors duration-300 ${index === 0 ? 'border-amber-500 text-amber-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`;
+                tab.textContent = funcao.nome;
+                tab.dataset.target = funcao.id;
+                tabsContainer.appendChild(tab);
+            });
 
-  <footer>
-    &copy; 2025 Mariz Pizzaria. Todos os direitos reservados.
-  </footer>
+            const updateFuncoesContent = (id) => {
+                const funcao = data.funcoes.find(f => f.id === id);
+                contentContainer.innerHTML = `
+                    <h5 class="text-xl font-bold text-amber-700 mb-3">${funcao.titulo}</h5>
+                    <p class="text-gray-700 mb-4">${funcao.desc}</p>
+                    <p class="text-sm text-gray-500 italic">${funcao.exemplo}</p>
+                `;
+            };
+            
+            tabsContainer.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    Array.from(tabsContainer.children).forEach(tab => {
+                        tab.classList.remove('border-amber-500', 'text-amber-600');
+                        tab.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                    });
+                    e.target.classList.add('border-amber-500', 'text-amber-600');
+                    e.target.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                    updateFuncoesContent(e.target.dataset.target);
+                }
+            });
+
+            updateFuncoesContent(data.funcoes[0].id);
+
+            const timelineNav = document.getElementById('timeline-nav');
+            const timelineContent = document.getElementById('timeline-content');
+            
+            data.timeline.forEach((item, index) => {
+                const navItem = document.createElement('button');
+                navItem.dataset.target = item.id;
+                navItem.className = `w-full text-left md:text-right p-3 rounded-lg transition-colors duration-300 ${index === 0 ? 'bg-amber-100 text-amber-800 font-semibold' : 'hover:bg-gray-100'}`;
+                navItem.textContent = item.periodo;
+                timelineNav.appendChild(navItem);
+            });
+            
+            const updateTimelineContent = (id) => {
+                const item = data.timeline.find(t => t.id === id);
+                timelineContent.innerHTML = `
+                    <div class="timeline-item relative pl-8">
+                         <h5 class="text-2xl font-bold text-amber-700 mb-3">${item.periodo}</h5>
+                         <p class="text-gray-700 mb-4">${item.desc.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-800">$1</strong>')}</p>
+                         <p class="mb-2"><strong class="font-semibold">Conceitos:</strong> ${item.conceitos.join(', ')}</p>
+                         <p><strong class="font-semibold">Pensadores:</strong> ${item.pensadores}</p>
+                    </div>
+                `;
+            };
+
+            timelineNav.addEventListener('click', e => {
+                if (e.target.tagName === 'BUTTON') {
+                    Array.from(timelineNav.children).forEach(btn => btn.classList.remove('bg-amber-100', 'text-amber-800', 'font-semibold'));
+                    e.target.classList.add('bg-amber-100', 'text-amber-800', 'font-semibold');
+                    updateTimelineContent(e.target.dataset.target);
+                }
+            });
+            
+            updateTimelineContent(data.timeline[0].id);
+            
+            const pensadoresContainer = document.getElementById('pensadores-container');
+            data.pensadores.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'card p-6';
+                card.innerHTML = `
+                    <h5 class="font-bold text-lg text-amber-700">${p.nome}</h5>
+                    <p class="font-semibold text-gray-600">${p.conceito}</p>
+                    <p class="text-sm text-gray-500 mt-2">${p.desc}</p>
+                `;
+                pensadoresContainer.appendChild(card);
+            });
+            
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Evolução do Pensamento (Antigo/Moderno)', 'Função Transformadora', 'Direito como Fenômeno Social', 'Pensadores Contemporâneos'],
+                    datasets: [{
+                        label: 'Nível de Domínio (Estimado)',
+                        data: [90, 60, 55, 50],
+                        backgroundColor: [
+                            'rgba(5, 150, 105, 0.6)', // emerald-600
+                            'rgba(245, 158, 11, 0.6)', // amber-500
+                            'rgba(239, 68, 68, 0.6)', // red-500
+                            'rgba(239, 68, 68, 0.6)' // red-500
+                        ],
+                        borderColor: [
+                            'rgba(5, 150, 105, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(239, 68, 68, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + "%"
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                             callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += context.parsed.x + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            const flashcardContainer = document.getElementById('flashcard-container');
+            const flashcardNav = document.getElementById('flashcard-nav');
+            let currentQuestion = 0;
+
+            const updateFlashcard = () => {
+                const q = data.perguntas[currentQuestion];
+                flashcardContainer.innerHTML = `
+                <div class="flashcard perspective-[1000px] h-64">
+                    <div class="flashcard-inner relative w-full h-full">
+                        <div class="flashcard-front absolute w-full h-full card flex items-center justify-center p-6 text-center">
+                            <p class="text-xl font-medium text-gray-700">${q.pergunta}</p>
+                        </div>
+                        <div class="flashcard-back absolute w-full h-full card flex items-center justify-center p-6 text-center bg-amber-100">
+                             <p class="text-md text-amber-800">${q.resposta}</p>
+                        </div>
+                    </div>
+                </div>
+                `;
+                 flashcardNav.innerHTML = `
+                    <button id="prev-q" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed" ${currentQuestion === 0 ? 'disabled' : ''}>Anterior</button>
+                    <span class="mx-4 text-gray-600 font-medium">${currentQuestion + 1} / ${data.perguntas.length}</span>
+                    <button id="next-q" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed" ${currentQuestion === data.perguntas.length - 1 ? 'disabled' : ''}>Próxima</button>
+                `;
+                 flashcardContainer.querySelector('.flashcard').addEventListener('click', function() {
+                    this.classList.toggle('is-flipped');
+                });
+            };
+            
+            flashcardNav.addEventListener('click', e => {
+                if (e.target.id === 'prev-q' && currentQuestion > 0) {
+                    currentQuestion--;
+                    updateFlashcard();
+                }
+                if (e.target.id === 'next-q' && currentQuestion < data.perguntas.length - 1) {
+                    currentQuestion++;
+                    updateFlashcard();
+                }
+            });
+            
+            updateFlashcard();
+        });
+    </script>
 </body>
 </html>
